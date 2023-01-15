@@ -12,10 +12,36 @@
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@application/*": [
+        "src/application/*"
+      ],
+      "@core/*": [
+        "src/core/*"
+      ],
+      "@infra/*": [
+        "src/infra/*"
+      ],
+      "@exceptions/*": [
+        "src/exceptions/*"
+      ],
+      "@events/*": [
+        "src/domain/events/*"
+      ],
+      "@entities/*": [
+        "src/domain/entities/*"
+      ],
+      "@repositories/*": [
+        "src/application/repositories/*"
+      ],
+      "@usecases/*": [
+        "src/application/usecases/*"
+      ],
+    }
   }
 }
