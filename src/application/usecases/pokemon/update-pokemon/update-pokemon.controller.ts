@@ -1,6 +1,5 @@
 import {
   Controller,
-  Post,
   HttpCode,
   Body,
   UsePipes,
@@ -9,14 +8,14 @@ import {
 } from '@nestjs/common';
 import * as Joi from 'joi';
 import { UpdatePokemonUseCase } from './update-pokemon.usecase';
-import { Response } from '@core/utils/response';
 import { JoiValidationPipe } from '@core/validation-pipe/joi.validation-pipe';
-import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { PokemonDTO } from '../DTO/pokemonDTO.dto';
 
 export const PokemonDTOSchema = Joi.object({
   name: Joi.string().required(),
-  superType: Joi.string().required(),
-  subTypes: Joi.string().required(),
+  supertype: Joi.string().required(),
+  subtypes: Joi.array().required(),
   hp: Joi.string().optional(),
   types: Joi.array().optional(),
   evolvesFrom: Joi.string().optional(),
@@ -37,12 +36,14 @@ export const PokemonDTOSchema = Joi.object({
 export class UpdatePokemonController {
   constructor(private readonly createPokemonUseCase: UpdatePokemonUseCase) {}
 
-  @HttpCode(200)
+  @HttpCode(201)
   @UsePipes(new JoiValidationPipe(PokemonDTOSchema))
   @Put('/:pokemonId')
+  @ApiBody({ type: PokemonDTO })
+  @ApiOperation({ description: 'Modifica um pokemon' })
   async update(@Param('pokemonId') _id: string, @Body() body): Promise<any> {
     const pokemonOrError = await this.createPokemonUseCase.execute(_id, body);
 
-    return Response.success(pokemonOrError, 'Pokemon updated successfully');
+    return pokemonOrError;
   }
 }

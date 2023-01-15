@@ -1,5 +1,4 @@
 import { Controller, Get, HttpCode } from '@nestjs/common';
-import { Response } from '@core/utils/response';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { GetAllPokemonUseCase } from './get-all-pokemon.usecase';
 
@@ -10,10 +9,10 @@ export class GetAllPokemonController {
 
   @HttpCode(200)
   @Get('')
-  @ApiOperation({ description: 'Retornar todas as rotas' })
+  @ApiOperation({ description: 'Retornar todos os pokemons' })
   async get(): Promise<any> {
     const pokemonOrError = await this.getAllPokemonUseCase.execute();
 
-    return Response.success(pokemonOrError, 'Listed all pokemons successfully');
+    return pokemonOrError;
   }
 }

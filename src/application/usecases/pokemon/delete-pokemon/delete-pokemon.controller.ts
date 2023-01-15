@@ -1,6 +1,5 @@
 import { Controller, Delete, HttpCode, Param } from '@nestjs/common';
-import { Response } from '@core/utils/response';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DeletePokemonUseCase } from './delete-pokemon.usecase';
 
 @ApiTags('Pokemon')
@@ -10,9 +9,10 @@ export class DeletePokemonController {
 
   @HttpCode(200)
   @Delete('/:pokemonId')
+  @ApiOperation({ description: 'Deleta um pokemon' })
   async delete(@Param('pokemonId') _id: string): Promise<any> {
     const deleteOrError = await this.deletePokemonUseCase.execute(_id);
 
-    return Response.success(deleteOrError, 'Pokemon deleted successfully');
+    return deleteOrError;
   }
 }

@@ -17,14 +17,17 @@ export class PokemonRepository extends PaprRepository<
   constructor(private readonly mongoProvider: MongoProvider) {
     super(mongoProvider.papr.model('pokemons', pokemonSchema));
   }
+  async exists(name: string): Promise<boolean> {
+    return !!(await this.model.findOne({ name: name, active: true }));
+  }
   async findById(_id: string): Promise<Pokemon> {
     const result = await this.model.findOne({ _id });
     if (!result) return null as any;
     return this.toDomain(result);
   }
-  async find(query: any): Promise<Pokemon> {
+  async find(query: any): Promise<Pokemon[]> {
     const result = await this.model.find(query);
-    return this.toDomain(result);
+    return result.map(this.toDomain);
   }
   async findByName(name: string): Promise<any> {
     const result = await this.model.findOne({ name });

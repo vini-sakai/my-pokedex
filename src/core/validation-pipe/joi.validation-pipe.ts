@@ -12,7 +12,7 @@ export class JoiValidationPipe implements PipeTransform {
   transform(value: any, metadata?: ArgumentMetadata) {
     if (metadata && metadata.type === 'body') {
       const { error } = this.schema.validate(value);
-      if (error) throw new BadRequestException(error);
+      if (error) throw new BadRequestException(error.details[0].message);
     }
     return value;
   }

@@ -1,5 +1,4 @@
 import { PokemonRepository } from '@application/repositories/pokemon.repository';
-import { Either, right, left } from '@core/utils';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -11,6 +10,7 @@ export class DeletePokemonUseCase {
 
     pokemon.deactive();
 
-    return await this.pokemonRepo.update(pokemon._id, pokemon);
+    await this.pokemonRepo.update(_id, pokemon);
+    return { message: 'Pokemon deletes successfully' };
   }
 }
